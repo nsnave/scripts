@@ -4,37 +4,44 @@
 # enumerability/diagonalization tables in LaTeX
 function entab() {
 
-	echo "\\begin{tabular}{l|llll}"
+	# Counts number of columns
+	line_num=$(< "$1" wc -l)
+
+	printf "\\\begin{tabular}{l|"
+	for ((i=0 ; i <= $line_num ; i++)); do
+		printf "l"
+	done
+	echo "}"
 
 	# Generates top row
 	while read line; do
 		printf " & "
-		printf $line
+		printf "\$$line\$"
 	done < $1 #horizontal axis
 
-	echo " \\\\ \\hline"
+	echo " & \\\\ \\hline"
 
 	# Generates middle rows
 	while read vline; do
 
-		printf $vline
+		printf "\$$vline\$"
 
 		while read hline; do
 			printf " & "
-			printf "$vline$hline"
+			printf "\$$vline$hline\$"
 		done < $1 #horizontal axis
 
-		echo " & \\cdots \\\\"
+		echo " & \$\\cdots\$ \\\\"
 
 	done < $2 #vertical axis
 
 	# Generates last row
 	while read line; do
 
-		printf " & \\\vdots "
+		printf " & \$\\\vdots\$ "
 
 	done < $1 #horizontal axis
-	echo " & \\ddots \\\\"
+	echo " & \$\\ddots\$"
 
 	echo "\\end{tabular}"
 
