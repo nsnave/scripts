@@ -91,7 +91,7 @@ def main():
   for roll in all_rolls:
     # Makes sure the roll argument is in the proper syntax
     if not re.match("(\d,)?(\dd)?\d", roll):
-      print("Error: roll \"{}\" is in an invalid format.".format(roll))
+      print("Error: roll \"{}\" is in an invalid format. See --help for more details.".format(roll))
       continue
 
     final_results = [] if not args.dist else dict()
