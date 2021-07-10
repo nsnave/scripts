@@ -1,5 +1,5 @@
 #
-# Dice Roller Tool
+# Dice Rolling Tool
 #
 # Author: Aidan Evans
 # Date: July 10, 2021
