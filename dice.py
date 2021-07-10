@@ -1,8 +1,19 @@
+#
+# Dice Roller Tool
+#
+# Author: Aidan Evans
+# Date: July 10, 2021
+#
+# Allows for rolling various configurations of dice.
+#
+
 import argparse
 import random
 import re
 
 
+''' Parser Configuration
+'''
 parser = argparse.ArgumentParser(description='Rolls some dice...')
 parser.add_argument("rolls", type=str, help="Rolls the specified dice using 'xdy' format; e.g., to rolls 4 six-sided dice, input '4d6'. \
                                             Multiple sets of rolls may be specified by putting all rolls within double- or single-quotes, seperated by spaces; e.g., \
@@ -16,6 +27,8 @@ parser.add_argument("-r", "--repeat", type=int, help="Specifies that each set of
 parser.add_argument("--dist", help="Returns a distribution of the results as percentages. Must be used with the --repeat argument.", action="store_true")
 
 
+''' Functions
+'''
 def get_sample(upper, k):
   return random.choices(range(1, upper + 1), k=k)
 
@@ -57,17 +70,21 @@ def handle_max_min(is_max, bound, roll):
 
   return results
 
-
+''' Main
+'''
 def main():
   args = parser.parse_args()
 
+  # Checks to make sure --repeat is specified when --dist is
   if args.dist and not args.repeat:
     print("Error: the --repeat argument must be specified if --dist is used.")
     return
 
+  # Performs each set of rolls
   all_rolls = args.rolls.split()
   number_of_rolls = len(all_rolls)
   for roll in all_rolls:
+    # Makes sure the roll syntax is in the proper syntax
     if not re.match("(\d,)?(\dd)?\d", roll):
       print("Error: roll \"{}\" is in an invalid format.".format(roll))
       continue
@@ -107,7 +124,7 @@ def main():
         # Stores the results to print later
         final_results.append(results)
 
-    # Prints the final results
+    # Prints the final results of these rolls
     if not args.dist:
       for results in final_results:
           print(" ".join(str(e) for e in results))
@@ -118,7 +135,7 @@ def main():
         print("{}: {}".format(key, round(final_results[key] / repeat, 5)))
 
 
-    # Print a newline to separate multiple rolls
+    # Print a newline to separate multiple sets of rolls
     if number_of_rolls > 1:
         print()
 
