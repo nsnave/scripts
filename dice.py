@@ -33,6 +33,7 @@ def get_sample(upper, k):
   return random.choices(range(1, upper + 1), k=k)
 
 def handle_roll(roll):
+  # Handles rolls of the for 'm,xdy'
   if re.match("\d,\dd\d", roll):
     parts = re.split("[,d]", roll)
 
@@ -44,6 +45,7 @@ def handle_roll(roll):
     results.sort(reverse=True)
     results = results[:maximum]
 
+  # Handles rolls of the form 'xdy'
   elif re.match("\dd\d", roll):
     parts = roll.split('d')
     
@@ -52,8 +54,11 @@ def handle_roll(roll):
 
     results = get_sample(sides, rolls)
 
+  # Handles rolls of the form 'x'
   elif re.match("\d", roll):
     results = get_sample(6, int(roll))
+  
+  # Returns None otherwise
   else:
     results = None
 
@@ -84,7 +89,7 @@ def main():
   all_rolls = args.rolls.split()
   number_of_rolls = len(all_rolls)
   for roll in all_rolls:
-    # Makes sure the roll syntax is in the proper syntax
+    # Makes sure the roll argument is in the proper syntax
     if not re.match("(\d,)?(\dd)?\d", roll):
       print("Error: roll \"{}\" is in an invalid format.".format(roll))
       continue
