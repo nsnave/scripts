@@ -4,8 +4,8 @@ set netid=ate4
 Rem Constant Variables
 set remoteserver=node.zoo.cs.yale.edu
 set menutext=SCP to Zoo
-set command1=cmd.exe /c \"scp -r %%1 ate4@node.zoo.cs.yale.edu:~/scp\"
-set command2=cmd.exe /c \"scp -r %%V ate4@node.zoo.cs.yale.edu:~/scp\"
+set command1=cmd.exe /c scp -r \"%%1\" ate4@node.zoo.cs.yale.edu:~/scp
+set command2=cmd.exe /c scp -r \"%%V\" ate4@node.zoo.cs.yale.edu:~/scp
 
 Rem Adds registry keys for context menu
 REG ADD "HKEY_CLASSES_ROOT\*\shell\%menutext%\command" /d "%command1%" /f
